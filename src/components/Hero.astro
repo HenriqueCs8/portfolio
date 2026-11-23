@@ -1,0 +1,47 @@
+---
+import { existsSync } from 'node:fs';
+import { Image } from 'astro:assets';
+import { site, semQuebra } from '../lib/site';
+
+// foto.* e avatar.* em src/assets/hero; sem eles, ficam os desenhos .svg
+const escolhe = (arquivos: Record<string, { default: ImageMetadata }>) => {
+  const nomes = Object.keys(arquivos).sort();
+  const real = nomes.find((n) => !n.endsWith('.svg'));
+  return arquivos[real ?? nomes[0]].default;
+};
+const foto = escolhe(import.meta.glob('../assets/hero/foto.*', { eager: true }));
+const avatar = escolhe(import.meta.glob('../assets/hero/avatar.*', { eager: true }));
+const temCv = existsSync(process.cwd() + '/public/curriculo.pdf');
+const linhas = site.nome.split(' ');
+---
+
+<section class="hero" id="topo" data-secao="topo" data-rev>
+  <div class="hero-texto entra">
+    <p class="status"><span class="status-ponto"></span>{site.status}</p>
+    <p class="hero-cargo">{semQuebra(site.cargo)}</p>
+    <p class="hero-frase">{site.frase}</p>
+    <div class="hero-acoes">
+      <a class="bt bt-cheio" data-rola href="#projetos">Ver projetos</a>
+      {temCv && <a class="bt" data-rola href="/curriculo.pdf" download>Baixar currículo</a>}
+    </div>
+  </div>
+  {/* ilustração e foto no centro, o nome na frente */}
+  <div class="hero-palco">
+    <figure class="retrato">
+      <div class="retrato-quadro">
+        <Image class="retrato-img on" src={avatar} alt={`Ilustração de ${site.nome} trabalhando em um notebook`} widths={[400, 800]} sizes="(max-width: 860px) 56vw, 340px" loading="eager" fetchpriority="high" />
+        <Image class="retrato-img" src={foto} alt={`Foto de ${site.nome}`} widths={[400, 800]} sizes="(max-width: 860px) 56vw, 340px" loading="eager" />
+        <span class="retrato-tempo"></span>
+        <button class="retrato-pausa" type="button" aria-pressed="false" aria-label="Pausar troca de imagem">
+          <svg class="i-pausa" viewBox="0 0 12 12" aria-hidden="true"><rect x="1" width="3.5" height="12"></rect><rect x="7.5" width="3.5" height="12"></rect></svg>
+          <svg class="i-toca" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 0l10 6-10 6z"></path></svg>
+        </button>
+      </div>
+    </figure>
+    <h1 class="hero-nome" data-fit data-justifica data-vel>
+      {linhas.map((l, i) => (
+        <span class="ln" style={`--i:${i}`}><span>{l}</span></span>
+      ))}
+    </h1>
+  </div>
+</section>

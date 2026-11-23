@@ -1,0 +1,61 @@
+---
+// texto em src/content/paginas/privacidade.md; nome e e-mail vêm do site.yaml
+import { getEntry, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Moldura from '../components/Moldura.astro';
+import Rodape from '../components/Rodape.astro';
+import { site } from '../lib/site';
+
+const pagina = await getEntry('paginas', 'privacidade');
+if (!pagina) throw new Error('Falta o texto da página: src/content/paginas/privacidade.md');
+const { Content } = await render(pagina);
+const { titulo, descricao, atualizado, resumo } = pagina.data;
+
+// "2026-11-23" vira "23 de novembro de 2026"
+const [a, m, d] = atualizado.split('-').map(Number);
+const quando = new Intl.DateTimeFormat('pt-BR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(
+  new Date(Date.UTC(a, m - 1, d)),
+);
+---
+
+<Base titulo={`${titulo}, ${site.nome}`} descricao={descricao}>
+  <Moldura simples />
+  <main id="conteudo">
+    <section class="sec priv" id="topo">
+      <header class="sec-cab" data-rev>
+        <h1 class="t-sec" data-fit="encolhe"><span class="ln"><span>{titulo}</span></span></h1>
+      </header>
+      <div class="priv-grade">
+        <div class="priv-texto texto-legal">
+          <Content />
+          <h2>Responsável e contato</h2>
+          <p>
+            {site.nomeCompleto}, {site.cidade} (SP).
+            <span class="priv-mail">E-mail:{' '}<a href={`mailto:${site.email}`}>{site.email}</a>.</span>
+          </p>
+        </div>
+        <aside class="agora priv-resumo" aria-labelledby="priv-resumo-tit">
+          <h2 class="agora-tit" id="priv-resumo-tit">
+            Em resumo <span class="agora-data">atualizado em <time datetime={atualizado}>{quando}</time></span>
+          </h2>
+          <dl>
+            {
+              resumo.map((i) => (
+                <div class="agora-item">
+                  <dt>{i.rotulo}</dt>
+                  <dd>{i.texto}</dd>
+                </div>
+              ))
+            }
+            <div class="agora-item">
+              <dt>Responsável</dt>
+              <dd>{site.nomeCompleto}</dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
+      <p class="priv-volta"><a class="bt bt-cheio" href="/">Voltar ao portfólio</a></p>
+    </section>
+  </main>
+  <Rodape />
+</Base>

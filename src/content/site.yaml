@@ -1,0 +1,51 @@
+# textos e dados do site
+
+nome: Henrique Carvalho
+marca: HC8CODE            # aparece no topo no lugar do nome
+nomeCompleto: Henrique Carvalho dos Santos
+cargo: Desenvolvedor full stack em Sorocaba.
+frase: Do banco de dados ao último pixel.
+status: Aberto a vagas e projetos freelance
+cidade: Sorocaba
+fuso: America/Sao_Paulo
+
+email: henri.santos08@hotmail.com
+telefone: "(15) 99620-4439"   # com link para ligar
+linkedin: https://www.linkedin.com/in/henrique-carvalho-dos-santos-50a26b260
+github: https://github.com/HenriCS08
+
+# projetos por página
+projetosPorPagina: 4
+
+# Sobre: a abertura e um item por parágrafo
+sobre:
+  abertura: "Sou Henrique, desenvolvedor full stack em Sorocaba. Construo sistemas web completos, do banco de dados à interface."
+  texto:
+    - "Comecei em 2023 na Clarios, como aprendiz na área de inovação: dashboards em Power BI e automações em Python e Power Apps para outras áreas da empresa."
+    - "Em 2026, na AGX, entrei como estagiário de TI e virei trainee três meses depois. Criei sozinho três sistemas internos, entre eles um assistente com IA."
+    - "Desde 2025 atendo clientes como freelancer. No início de 2027 começo a faculdade de Gestão da Tecnologia da Informação na Anhanguera."
+
+# coluna "Agora": ao mudar algo, atualize a data (AAAA-MM)
+agora:
+  atualizado: "2026-11"
+  itens:
+    - { rotulo: Estudando, texto: "Formação Full Stack da Origamid e Java com Nelio Alves" }
+    - { rotulo: Construindo, texto: "Sites e sistemas para clientes, como freelancer" }
+    - { rotulo: Aprendendo, texto: "Next.js, AWS, n8n e Docker" }
+    - { rotulo: Procurando, texto: "Vaga full stack ou projeto freelance" }
+
+# camadas dos Conhecimentos, de cima para baixo
+camadas:
+  - { id: interface, nome: Front-end }
+  - { id: servidor, nome: Back-end }
+  - { id: dados, nome: Dados }
+  - { id: automacao, nome: Automação }
+  - { id: infra, nome: Infraestrutura }
+
+idiomas:
+  - { nome: Português, nivel: nativo }
+  - { nome: Inglês, nivel: intermediário }
+
+contato:
+  titulo: [Por onde, começamos?]
+  apoio: Conte o projeto ou a vaga por e-mail ou telefone, ou me chame no LinkedIn.

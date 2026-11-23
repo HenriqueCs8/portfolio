@@ -1,0 +1,110 @@
+---
+import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource-variable/geist';
+import '@fontsource-variable/geist-mono';
+import 'lenis/dist/lenis.css';
+import '../styles/global.css';
+// fontes da primeira tela carregam antes
+import fonteTitulo from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
+import fonteTexto from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
+import { getCollection } from 'astro:content';
+import { site, caminho } from '../lib/site';
+
+interface Props {
+  titulo: string;
+  descricao: string;
+}
+const { titulo, descricao } = Astro.props;
+// com SITE_URL os links ficam absolutos, como as redes pedem
+const pagina = caminho(Astro.url.pathname);
+const canonico = Astro.site && pagina !== '/404' ? new URL(pagina, Astro.site).href : undefined;
+const imagem = Astro.site ? new URL('/og.png', Astro.site).href : '/og.png';
+// schema.org, só na página inicial
+const inicio = pagina === '/';
+const sabe = inicio
+  ? (await getCollection('conhecimentos')).filter((k) => k.data.nivel !== 'aprofundando').map((k) => k.data.nome)
+  : [];
+const pessoa = inicio
+  ? JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: site.nomeCompleto,
+      alternateName: site.nome,
+      jobTitle: 'Desenvolvedor full stack',
+      description: site.frase,
+      address: { '@type': 'PostalAddress', addressLocality: site.cidade, addressRegion: 'SP', addressCountry: 'BR' },
+      email: `mailto:${site.email}`,
+      ...(site.telefone ? { telephone: `+55 ${site.telefone}` } : {}),
+      sameAs: [site.linkedin, site.github],
+      knowsAbout: sabe,
+      ...(canonico ? { url: canonico } : {}),
+    })
+  : '';
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{titulo}</title>
+    <meta name="description" content={descricao} />
+    <meta name="theme-color" content="#0a0909" />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descricao} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:image" content={imagem} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Henrique Carvalho, desenvolvedor full stack. Do banco de dados ao último pixel." />
+    <meta name="twitter:card" content="summary_large_image" />
+    {canonico && <link rel="canonical" href={canonico} />}
+    {canonico && <meta property="og:url" content={canonico} />}
+    <link rel="preload" href={fonteTitulo} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={fonteTexto} as="font" type="font/woff2" crossorigin />
+    {/* .ico para navegadores sem SVG; PNG para a tela inicial do iPhone */}
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    {pessoa && <script type="application/ld+json" set:html={pessoa} />}
+    <script is:inline>
+      (function () {
+        var h = document.documentElement;
+        h.classList.add('js');
+        // tema salvo aplicado antes da primeira pintura, para não piscar
+        try {
+          if (localStorage.getItem('tema') === 'claro') {
+            h.setAttribute('data-tema', 'claro');
+            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#e8e6e3');
+          }
+        } catch (e) {}
+        // só não anima com "reduzir movimento" do sistema
+        var reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduz) h.classList.add('reduz');
+        // abertura completa na primeira vez na aba, curta depois
+        if (!reduz) {
+          h.classList.add('intro');
+          try {
+            if (sessionStorage.getItem('abertura')) h.classList.add('intro-curta');
+          } catch (e) {}
+        }
+        // se o script principal não carregar, mostra o conteúdo mesmo assim
+        setTimeout(function () {
+          if (!window.__app) {
+            h.classList.remove('js', 'intro', 'intro-curta');
+            h.classList.add('pronto');
+          }
+        }, 5000);
+      })();
+    </script>
+  </head>
+  <body>
+    <canvas id="campo" aria-hidden="true"></canvas>
+    <slot />
+    <div class="rotulo-cursor" aria-hidden="true">Ver detalhes</div>
+    <script>
+      import '../scripts/app.ts';
+    </script>
+  </body>
+</html>

@@ -1,0 +1,34 @@
+# camada: interface (front-end) | servidor (back-end) | dados | automacao | infra
+# nivel: diario | aplicado | aprofundando
+# desde: ano em que comecei (aparece quando não tem descrição)
+# o "Usado em" sai do stack dos projetos
+
+- { id: js, nome: JavaScript, camada: interface, nivel: diario, descricao: "Interações dos sites para clientes e a parte visível do quadro de gestão integrado ao GitHub." }
+- { id: htmlcss, nome: HTML e CSS, camada: interface, nivel: diario, descricao: "Estrutura e layout responsivo dos sites para clientes, como o da Dell'Amore & Ribeiro e as landing pages." }
+- { id: react, nome: React, camada: interface, nivel: diario, descricao: "Interface do assistente corporativo com IA da AGX, que mostra as fontes de cada resposta." }
+- { id: ts, nome: TypeScript, camada: interface, nivel: aplicado, descricao: "Tipagem dos sites em Astro: o da Dell'Amore & Ribeiro e as landing pages." }
+- { id: astro, nome: Astro, camada: interface, nivel: aplicado, descricao: "Sites estáticos componentizados, com rotas e animações em GSAP e foco no visual: os sites para clientes e este portfólio." }
+- { id: gsap, nome: GSAP, camada: interface, nivel: aplicado, descricao: "Animações ligadas à rolagem nos sites em Astro: as landing pages para clientes e este portfólio." }
+- { id: next, nome: Next.js, camada: interface, nivel: aprofundando, desde: 2026, descricao: "Renderização no servidor, rotas e componentes, em estudos e protótipos." }
+- { id: vue, nome: Vue, camada: interface, nivel: aprofundando, desde: 2026, descricao: "Componentes e rotas, em estudos e protótipos." }
+- { id: angular, nome: Angular, camada: interface, nivel: aprofundando, descricao: "Em estudo." }
+
+- { id: node, nome: Node.js, camada: servidor, nivel: diario, descricao: "Servidor do assistente corporativo com IA, com Express." }
+- { id: python, nome: Python, camada: servidor, nivel: diario, descricao: "Automações desde a Clarios e, na AGX, o editor de apresentações e o quadro de gestão, com FastAPI." }
+- { id: java, nome: Java, camada: servidor, nivel: aplicado, descricao: "Funcionalidades e correções em aplicações Java para clientes de freela." }
+- { id: apis, nome: APIs REST e webhooks, camada: servidor, nivel: aplicado, descricao: "Crio e consumo APIs em quase todos os sistemas." }
+- { id: openai, nome: OpenAI API, camada: servidor, nivel: aplicado, descricao: "A IA do assistente corporativo: responde com base nos documentos da empresa e mostra as fontes." }
+
+- { id: postgresql, nome: PostgreSQL, camada: dados, nivel: aplicado, descricao: "Banco de dados do assistente corporativo com IA." }
+- { id: mongodb, nome: MongoDB, camada: dados, nivel: aplicado, descricao: "Banco do editor de apresentações e do quadro de gestão integrado ao GitHub." }
+
+- { id: playwright, nome: Playwright, camada: automacao, nivel: aplicado, descricao: "Testes de ponta a ponta em projetos profissionais." }
+- { id: postman, nome: Postman, camada: automacao, nivel: aplicado, descricao: "Validação de APIs antes das entregas." }
+- { id: powerbi, nome: Power BI, camada: automacao, nivel: aplicado, descricao: "Dashboards de indicadores na Clarios." }
+- { id: powerapps, nome: Power Apps, camada: automacao, nivel: aplicado, descricao: "Automações de rotinas administrativas na Clarios." }
+- { id: n8n, nome: n8n, camada: automacao, nivel: aprofundando, desde: 2026, descricao: "Fluxos de automação e testes automatizados, em estudo." }
+
+- { id: docker, nome: Docker, camada: infra, nivel: aprofundando, descricao: "Dockerfile e Docker Compose no assistente com IA e no quadro de gestão." }
+- { id: git, nome: Git e GitHub, camada: infra, nivel: aplicado, descricao: "Branches, pull requests e revisão de código no dia a dia." }
+- { id: cloudflare, nome: Cloudflare, camada: infra, nivel: aplicado, descricao: "Hospeda as landing pages e este portfólio, e guarda os arquivos do editor de apresentações." }
+- { id: aws, nome: AWS, camada: infra, nivel: aprofundando, desde: 2026, descricao: "Fundamentos de deploy e execução de aplicações na nuvem." }

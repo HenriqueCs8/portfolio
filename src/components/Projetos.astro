@@ -1,0 +1,112 @@
+---
+import { Image } from 'astro:assets';
+import { render, type CollectionEntry } from 'astro:content';
+import { site, dois } from '../lib/site';
+
+interface Props {
+  projetos: CollectionEntry<'projetos'>[];
+  nomes: Map<string, string>;
+}
+const { projetos, nomes } = Astro.props;
+const porPagina = site.projetosPorPagina;
+const paginas = Math.ceil(projetos.length / porPagina);
+const lista = await Promise.all(projetos.map(async (p) => ({ p, Content: (await render(p)).Content })));
+
+// frase do detalhe sem link público (o .md pode trocar com semLink)
+const semLinkPadrao: Record<string, string> = {
+  Comercial: 'Entregue ao cliente, sem link público.',
+  Pessoal: 'Projeto pessoal, sem link público.',
+  Estudo: 'Projeto de estudo, sem link público.',
+};
+---
+
+<section class="sec projetos" id="projetos" data-secao="projetos">
+  <header class="sec-cab" data-rev>
+    <h2 class="t-sec" data-titulo><span class="ln"><span>Projetos</span></span></h2>
+    <p class="sec-nota" data-acende>Sites para clientes e projetos pessoais, feitos do zero por mim. Os sistemas internos que criei na AGX estão na <a class="lk" href="#carreira">Carreira</a>.</p>
+  </header>
+
+  <ol class="proj-lista" data-rev data-paginas={paginas}>
+    {projetos.map((p, i) => (
+      <li class="proj" id={`projeto-${p.id}`} data-projeto={p.id} data-pagina={Math.floor(i / porPagina)} style={`--i:${i % porPagina}`}>
+        <Image class="proj-mini" data-vel src={p.data.imagem} alt="" widths={[280, 560, 800]} sizes="(max-width: 860px) 92vw, 140px" />
+        <div class="proj-meio">
+          <h3 class="proj-tit" data-rola>{p.data.titulo}</h3>
+          <p class="proj-res">{p.data.resumo}</p>
+        </div>
+        <p class="proj-meta"><span>{p.data.tipo}</span><span>{p.data.quando}</span></p>
+        <button class="bt proj-bt" data-rola type="button" aria-haspopup="dialog">Ver detalhes<span class="so-leitor">: {p.data.titulo}</span></button>
+      </li>
+    ))}
+  </ol>
+
+  {paginas > 1 && (
+    <nav class="pager" aria-label="Páginas de projetos" hidden>
+      <p class="pager-onde" aria-hidden="true"><span class="pager-n" data-pag-n>01</span> / {dois(paginas)}</p>
+      <p class="so-leitor" aria-live="polite" data-pag-status></p>
+      <div class="pager-bts">
+        <button class="seta" type="button" data-pag="-1" aria-label="Projetos anteriores">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+        </button>
+        <button class="seta" type="button" data-pag="1" aria-label="Próximos projetos">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
+        </button>
+      </div>
+    </nav>
+  )}
+
+  <div class="previa" aria-hidden="true">
+    {projetos.map((p) => <Image src={p.data.imagem} alt="" data-previa={p.id} widths={[560, 1120]} sizes="540px" />)}
+  </div>
+</section>
+
+<dialog class="det" id="detalhe">
+  <div class="det-fundo"></div>
+  <div class="det-rolo" data-lenis-prevent>
+    <div class="det-barra">
+      <p class="det-cont" aria-live="polite">
+        <span class="so-leitor" data-det-n-leitor>Projeto 1 de {projetos.length}</span>
+        <span aria-hidden="true">Projeto <span class="odo"><span class="odo-trilho" data-det-odo>{projetos.map((_, i) => <span>{dois(i + 1)}</span>)}</span></span> de {dois(projetos.length)}</span>
+      </p>
+      <button class="bt det-fecha" data-rola type="button">Fechar</button>
+    </div>
+    {lista.map(({ p, Content }) => (
+      <article class="det-art" data-det={p.id} hidden>
+        <header class="det-cab">
+          {/* ao abrir, o foco vai para o título */}
+          <h2 class="det-tit" id={`det-tit-${p.id}`} tabindex="-1"><span class="so-leitor">{p.data.titulo}</span><span class="det-tit-v" aria-hidden="true">{p.data.titulo}</span></h2>
+          <div class="det-fatos det-anim">
+            <dl class="det-dados">
+              <div><dt>Tipo</dt><dd>{p.data.tipo}</dd></div>
+              <div><dt>Quando</dt><dd>{p.data.quando}</dd></div>
+            </dl>
+            {p.data.link ? (
+              <a class="bt bt-cheio" data-rola href={p.data.link} target="_blank" rel="noopener">Abrir projeto<span class="so-leitor"> (abre em nova aba)</span></a>
+            ) : (
+              <p class="det-sem">{p.data.semLink ?? semLinkPadrao[p.data.tipo]}</p>
+            )}
+          </div>
+        </header>
+        <figure class="det-fig">
+          <div class="det-moldura">
+            <Image class="det-img" src={p.data.imagem} alt={`Tela do projeto ${p.data.titulo}`} widths={[960, 1400, 1840]} sizes="(max-width: 860px) 92vw, 62vw" />
+          </div>
+          {p.data.provisoria && <figcaption>Imagem provisória. O print real do projeto entra aqui.</figcaption>}
+        </figure>
+        <div class="det-grade">
+          <div class="det-desc det-anim"><Content /></div>
+          <div class="det-info det-anim">
+            <h3 class="det-rot">Linguagens e ferramentas</h3>
+            <ul class="tags">
+              {[...p.data.stack.map((s) => nomes.get(s)!), ...p.data.extras].map((t) => <li>{t}</li>)}
+            </ul>
+          </div>
+        </div>
+      </article>
+    ))}
+    <div class="det-nav">
+      <button class="bt" data-rola type="button" data-det-ir="-1">Projeto anterior</button>
+      <button class="bt" data-rola type="button" data-det-ir="1">Próximo projeto</button>
+    </div>
+  </div>
+</dialog>

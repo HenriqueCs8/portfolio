@@ -1,0 +1,34 @@
+---
+import { site, semQuebra } from '../lib/site';
+
+// "2026-11" vira "novembro de 2026"
+const [ano, mes] = site.agora.atualizado.split('-').map(Number);
+const quando = new Intl.DateTimeFormat('pt-BR', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(
+  new Date(Date.UTC(ano, mes - 1, 1)),
+);
+---
+
+<section class="sec sobre" id="sobre" data-secao="sobre">
+  <header class="sec-cab" data-rev>
+    <h2 class="t-sec" data-titulo><span class="ln"><span>Sobre</span></span></h2>
+  </header>
+  <div class="sobre-grade">
+    <div class="sobre-texto" data-acende>
+      <p class="sobre-abre">{semQuebra(site.sobre.abertura)}</p>
+      {site.sobre.texto.map((p) => <p>{semQuebra(p)}</p>)}
+    </div>
+    <div class="agora" data-acende>
+      <h3 class="agora-tit" id="agora-tit">
+        Agora <span class="agora-data">atualizado em <time datetime={site.agora.atualizado}>{quando}</time></span>
+      </h3>
+      <dl>
+        {site.agora.itens.map((i) => (
+          <div class="agora-item">
+            <dt>{i.rotulo}</dt>
+            <dd>{semQuebra(i.texto)}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+</section>

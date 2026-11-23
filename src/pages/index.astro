@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Moldura from '../components/Moldura.astro';
+import Hero from '../components/Hero.astro';
+import Sobre from '../components/Sobre.astro';
+import Projetos from '../components/Projetos.astro';
+import Conhecimentos from '../components/Conhecimentos.astro';
+import Carreira from '../components/Carreira.astro';
+import Formacao from '../components/Formacao.astro';
+import Contato from '../components/Contato.astro';
+import Rodape from '../components/Rodape.astro';
+import { site, type Trabalho } from '../lib/site';
+
+const conhecimentos = await getCollection('conhecimentos');
+const carreira = (await getCollection('carreira')).sort((a, b) => a.data.inicio.localeCompare(b.data.inicio));
+const formacao = await getCollection('formacao');
+
+// sistemas da empresa ficam na Carreira; um .md antigo com o mesmo id é ignorado
+const sistemas = carreira.flatMap((c) => c.data.sistemas.map((s) => ({ ...s, car: c.id, empresa: c.data.empresa })));
+const ids = new Set(sistemas.map((s) => s.id));
+const projetos = (await getCollection('projetos'))
+  .filter((p) => {
+    if (!ids.has(p.id)) return true;
+    console.warn(`[portfólio] src/content/projetos/${p.id}.md virou sistema da Carreira e foi ignorado: pode apagar o arquivo.`);
+    return false;
+  })
+  .sort((a, b) => a.data.ordem - b.data.ordem);
+
+// projetos e sistemas, para os Conhecimentos
+const trabalhos: Trabalho[] = [
+  ...projetos.map((p) => ({ id: p.id, titulo: p.data.titulo, stack: p.data.stack })),
+  ...sistemas.map((s) => ({ id: s.id, titulo: s.titulo, stack: s.stack, car: s.car })),
+];
+
+// toda tecnologia citada precisa existir em conhecimentos.yaml
+const nomes = new Map(conhecimentos.map((c) => [c.id, c.data.nome]));
+for (const t of trabalhos) {
+  for (const s of t.stack) {
+    if (!nomes.has(s)) {
+      throw new Error(
+        `${t.car ? `Sistema "${t.id}" (carreira.yaml)` : `Projeto "${t.id}"`}: a tecnologia "${s}" não existe em ` +
+          `src/content/conhecimentos.yaml. Adicione lá ou mova para "extras".`,
+      );
+    }
+  }
+}
+for (const c of conhecimentos) {
+  if (!site.camadas.some((k) => k.id === c.data.camada)) {
+    throw new Error(`Conhecimento "${c.id}": a camada "${c.data.camada}" não existe em site.yaml.`);
+  }
+}
+---
+
+<Base titulo={`${site.nome}, desenvolvedor full stack`} descricao={`${site.cargo} Sistemas internos com IA, React, Node.js e Python, e sites com animação. ${site.frase}`}>
+  <Moldura />
+  <main id="conteudo">
+    <Hero />
+    <Sobre />
+    <Projetos projetos={projetos} nomes={nomes} />
+    <Conhecimentos conhecimentos={conhecimentos} trabalhos={trabalhos} />
+    <Carreira carreira={carreira} projetos={projetos} nomes={nomes} />
+    <Formacao formacao={formacao} />
+    <Contato />
+  </main>
+  <Rodape />
+</Base>

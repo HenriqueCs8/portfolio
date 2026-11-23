@@ -1,0 +1,69 @@
+# uma entrada por experiência, em ordem de inicio (AAAA-MM). sem fim = até hoje
+# cargoAnterior: cargo antigo, aparece riscado
+# projetos: ids de src/content/projetos
+# sistemas: o que fiz na empresa e não posso mostrar; stack usa os ids de conhecimentos.yaml
+# detalhes: um item por linha (lista "O que eu fazia" do "Ver mais")
+
+- id: clarios
+  empresa: Clarios
+  cargo: Aprendiz Administrativo em Inovação
+  inicio: "2023-11"
+  fim: "2025-11"
+  descricao: Dashboards em Power BI e Excel e automações em Python e Power Apps para as áreas da empresa.
+  detalhes:
+    - Construí dashboards em Power BI e Excel para acompanhar os indicadores das áreas, no lugar de controles manuais.
+    - Automatizei rotinas administrativas com Python e Power Apps, o que reduziu o tempo das tarefas repetitivas e os erros de digitação.
+    - Dei suporte aos usuários do ERP QAD e cuidei para que os dados cadastrados ficassem corretos.
+    - Mapeei processos em projetos de melhoria contínua e propus automações.
+  tecnologias: [Power BI, Excel, Python, Power Apps, ERP QAD]
+
+- id: freelancer
+  empresa: Freelancer
+  cargo: Desenvolvedor
+  inicio: "2025-02"
+  descricao: Sites, landing pages e aplicações web para clientes, além de funcionalidades e correções em aplicações Java.
+  detalhes:
+    - Desenvolvo e mantenho sites e aplicações web, incluindo landing pages com foco em design.
+    - Crio funcionalidades e corrijo bugs em aplicações Java.
+    - Testo e reviso código de clientes e ajusto interfaces e sistemas.
+  projetos: [dellamore]
+  tecnologias: [Astro, TypeScript, HTML e CSS, JavaScript, GSAP, Cloudflare, Java]
+
+- id: agx
+  empresa: AGX
+  cargoAnterior: Estagiário de TI
+  cargo: Trainee de TI
+  inicio: "2026-02"
+  fim: "2026-09"
+  descricao: Promovido a trainee em maio, três meses depois de entrar. Três sistemas internos criados sozinho, com React, Node.js, Python, MongoDB e SQL.
+  detalhes:
+    - Desenvolvi e evoluí aplicações internas com React, Node.js, Python, MongoDB e SQL, entre elas os três sistemas que criei sozinho, listados abaixo.
+    - Implementei telas e funcionalidades de ponta a ponta, da interface ao banco de dados.
+    - Corrigi bugs em aplicações que já estavam em uso e fiz testes funcionais para encontrar falhas antes das entregas.
+    - Planejei melhorias de usabilidade e desempenho e ajudei a definir as telas e os fluxos dos sistemas.
+  sistemas:
+    - id: assistente
+      titulo: Assistente corporativo com IA
+      descricao:
+        - Assistente interno que responde perguntas com base em procedimentos, documentações, políticas e bases externas, mostrando as fontes usadas em cada resposta.
+        - Lê arquivos PDF, Word e Excel e divide o conteúdo em trechos para busca textual e semântica.
+        - Busca híbrida com PostgreSQL FTS e embeddings da OpenAI, com os resultados combinados por RRF, histórico de conversas e processamento assíncrono.
+      stack: [react, node, postgresql, openai, docker]
+      extras: [Express, Embeddings]
+    - id: editor
+      titulo: Editor de apresentações
+      descricao:
+        - Plataforma para importar, editar e organizar apresentações em PowerPoint e reaproveitar modelos.
+        - OCR com Tesseract e OpenCV para identificar os textos, limpar regiões e reconstruir os slides.
+        - Edição de elementos, restauração de conteúdo e exportação em PPTX e PDF, com os arquivos no Cloudflare R2.
+      stack: [python, mongodb, cloudflare]
+      extras: [FastAPI, Tesseract OCR, OpenCV]
+    - id: gestao
+      titulo: Gestão interna integrada ao GitHub
+      descricao:
+        - Quadro de atividades em cards, com colunas, prioridades, comentários e histórico, separado por empresas e setores.
+        - Controle de usuários com autenticação, níveis de acesso, notificações e registro de auditoria.
+        - Integração com a API do GitHub (GitHub App) para importar Issues direto para os cards.
+      stack: [python, mongodb, js, docker]
+      extras: [FastAPI, GitHub API]
+  tecnologias: [React, Node.js, Python, MongoDB, SQL]

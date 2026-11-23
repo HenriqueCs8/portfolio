@@ -1,0 +1,96 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { site, niveis, type Trabalho } from '../lib/site';
+
+interface Props {
+  conhecimentos: CollectionEntry<'conhecimentos'>[];
+  /** projetos e sistemas da Carreira (index.astro) */
+  trabalhos: Trabalho[];
+}
+const { conhecimentos, trabalhos } = Astro.props;
+const ordemNivel = ['diario', 'aplicado', 'aprofundando'];
+// o HTML segue a ordem de uma requisição; o CSS monta o layout do diagrama
+const camadas = site.camadas
+  .map((c) => ({
+    ...c,
+    itens: conhecimentos
+      .filter((k) => k.data.camada === c.id)
+      .sort((a, b) => ordemNivel.indexOf(a.data.nivel) - ordemNivel.indexOf(b.data.nivel)),
+  }))
+  .filter((c) => c.itens.length);
+const usadoEm = (id: string) => trabalhos.filter((t) => t.stack.includes(id));
+const total = camadas.reduce((n, c) => n + c.itens.length, 0);
+const contagem = Object.fromEntries(ordemNivel.map((n) => [n, conhecimentos.filter((k) => k.data.nivel === n).length]));
+// caminho de cada projeto pela stack (para o pixel do diagrama)
+const caminhos = trabalhos.map((t) => ({ titulo: t.titulo, stack: t.stack }));
+---
+
+<section class="sec conhecimentos" id="conhecimentos" data-secao="conhecimentos">
+  <header class="sec-cab" data-rev>
+    <h2 class="t-sec" data-fit="encolhe" data-titulo><span class="ln"><span>Conhecimentos</span></span></h2>
+    <p class="sec-nota" data-acende>O marcador e o tamanho mostram o nível. Escolha um nível para filtrar, ou uma tecnologia para ver o que faço com ela.</p>
+  </header>
+
+  {/* níveis, que também filtram */}
+  <div class="filtro" role="group" aria-label="Filtrar conhecimentos por nível, do maior para o menor" data-total={total}>
+    {ordemNivel.map((n) => (
+      <span class="filtro-item">
+        <button class={`filtro-bt n-${n}`} type="button" aria-pressed="false" data-nivel={n} data-nome={niveis[n as keyof typeof niveis]} data-n={contagem[n]}>
+          <span class="filtro-rot">{niveis[n as keyof typeof niveis]}</span><span class="filtro-n"><span class="so-leitor">, </span>{contagem[n]}</span>
+        </button>
+        <button class="filtro-x" type="button" aria-label="Limpar o filtro e mostrar todos" hidden>
+          <span aria-hidden="true"></span>
+        </button>
+      </span>
+    ))}
+  </div>
+  <p class="so-leitor" aria-live="polite" data-filtro-status></p>
+
+  {/* diagrama (diagrama.ts) */}
+  <div class="arq" data-arq data-caminhos={JSON.stringify(caminhos)}>
+    <div class="arq-grade">
+      {camadas.map((c) => (
+        <section class={`arq-cx arq-${c.id}`} data-camada={c.id} aria-labelledby={`camada-${c.id}`}>
+          <h3 class="arq-nome" id={`camada-${c.id}`}>{c.nome}</h3>
+          <ul class="arq-itens">
+            {c.itens.map((k) => {
+              const usos = usadoEm(k.id);
+              return (
+                <li data-nivel={k.data.nivel}>
+                  <button class={`tec n-${k.data.nivel}`} type="button" data-tec={k.id} aria-expanded="false" aria-controls={`desc-${k.id}`}>
+                    <span class="w">{k.data.nome}</span><span class="so-leitor">, {niveis[k.data.nivel].toLowerCase()}</span>
+                  </button>
+                  <div class="arq-desc" id={`desc-${k.id}`} hidden>
+                    <p class="arq-desc-tit" aria-hidden="true">{k.data.nome}</p>
+                    <p class="arq-desc-nv" aria-hidden="true">{niveis[k.data.nivel]}</p>
+                    <p>{k.data.descricao ?? (k.data.desde ? `Estudando desde ${k.data.desde}.` : '')}</p>
+                    {usos.length > 0 && (
+                      <p class="arq-desc-us">
+                        Usado em:{' '}
+                        {usos.map((t, j) => (
+                          <>
+                            {/* projeto abre o detalhe; sistema da Carreira abre o "Ver mais" */}
+                            {t.car ? (
+                              <a class="lk" href={`#carreira-${t.car}`} data-gav-abre={t.car} data-gav-alvo={`sis-${t.id}`}>{t.titulo}</a>
+                            ) : (
+                              <a class="lk" href={`#projeto-${t.id}`} data-abre={t.id}>{t.titulo}</a>
+                            )}
+                            {j < usos.length - 1 ? ', ' : '.'}
+                          </>
+                        ))}
+                      </p>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
+            <li class="arq-vazia" hidden>Nenhuma tecnologia deste nível nesta camada.</li>
+          </ul>
+        </section>
+      ))}
+      <span class="arq-trilho" aria-hidden="true"></span>
+      <span class="arq-pixel" aria-hidden="true"></span>
+    </div>
+    <p class="arq-legenda" aria-hidden="true"></p>
+  </div>
+</section>

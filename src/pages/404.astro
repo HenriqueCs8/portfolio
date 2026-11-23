@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../lib/site';
+---
+
+<Base titulo={`Página não encontrada, ${site.nome}`} descricao="Esta página não existe.">
+  <main id="conteudo" class="nao-achou">
+    <h1 class="t-sec" data-rev><span class="ln"><span>404</span></span></h1>
+    <p>Esta página não existe. O endereço pode estar errado ou a página foi removida.</p>
+    <a class="bt bt-cheio" href="/">Ir para o início</a>
+  </main>
+</Base>
+
+<style>
+  .nao-achou {
+    display: grid;
+    align-content: center;
+    justify-items: start;
+    gap: 24px;
+    min-height: 100svh;
+    padding: 0 var(--margem);
+  }
+  .nao-achou p {
+    max-width: 36ch;
+    color: var(--texto-2);
+    font-size: 18px;
+  }
+</style>

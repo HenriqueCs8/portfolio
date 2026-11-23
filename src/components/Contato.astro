@@ -1,0 +1,40 @@
+---
+import { existsSync } from 'node:fs';
+import { site, escapa, linkTelefone, semQuebra } from '../lib/site';
+const temCv = existsSync(process.cwd() + '/public/curriculo.pdf');
+---
+
+<section class="sec contato" id="contato" data-secao="contato">
+  <h2 class="contato-tit" data-fit data-titulo>
+    {site.contato.titulo.map((l, i) => (
+      <span class="ln" style={`--i:${i}`}>
+        <span set:html={l.split(' ').map((w) => `<span class="pl">${escapa(w)}</span>`).join(' ')} />
+      </span>
+    ))}
+  </h2>
+  <div class="contato-grade">
+    <p class="contato-apoio" data-acende>{semQuebra(site.contato.apoio)}</p>
+    {/* rótulos só no celular */}
+    <div class="contato-mail">
+      <span class="contato-rot" aria-hidden="true">E-mail</span>
+      <a class="mail lk" href={`mailto:${site.email}`}>{site.email}</a>
+      <button class="bt" data-rola type="button" data-copia={site.email}>Copiar e-mail</button>
+      <p class="contato-aviso" role="status"></p>
+      <p class="so-leitor" role="status" data-copia-status></p>
+    </div>
+    {site.telefone && (
+      <p class="contato-tel">
+        <span class="contato-rot" aria-hidden="true">Telefone</span>
+        <a class="lk tel" href={linkTelefone(site.telefone)}><span class="so-leitor">Telefone: </span>{site.telefone}</a>
+      </p>
+    )}
+    <div class="contato-links">
+      <p class="contato-redes">
+        <span class="contato-rot" aria-hidden="true">Redes</span>
+        <a class="lk" href={site.linkedin} target="_blank" rel="noopener">LinkedIn<span class="so-leitor"> (abre em nova aba)</span></a>
+        <a class="lk" href={site.github} target="_blank" rel="noopener">GitHub<span class="so-leitor"> (abre em nova aba)</span></a>
+      </p>
+      {temCv && <p class="contato-cv"><a class="lk" href="/curriculo.pdf" download>Currículo em PDF</a></p>}
+    </div>
+  </div>
+</section>

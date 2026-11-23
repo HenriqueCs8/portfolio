@@ -1,0 +1,15 @@
+# dependências e arquivos gerados
+node_modules
+dist
+.astro
+
+# sistema e editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# segredos e configurações locais (nunca vão para o repositório)
+.env
+.env.*
+!.env.example

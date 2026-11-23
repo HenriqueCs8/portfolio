@@ -1,0 +1,44 @@
+# ordem: 1 é o primeiro. tipo: Formação (graduação) ou Curso
+# situacao: a começar, em andamento ou concluído. sem fim aparece "desde ..."
+
+- id: anhanguera
+  curso: Gestão da Tecnologia da Informação
+  tipo: Formação
+  instituicao: Anhanguera
+  inicio: 2027
+  fim: 2029
+  situacao: a começar
+  ordem: 1
+
+- id: unip
+  curso: Tecnólogo em Análise e Desenvolvimento de Sistemas
+  tipo: Formação
+  instituicao: Unip
+  inicio: 2023
+  fim: 2025
+  situacao: concluído
+  ordem: 2
+
+- id: origamid
+  curso: Formação Full Stack
+  tipo: Curso
+  instituicao: Origamid
+  inicio: 2026
+  situacao: em andamento
+  ordem: 3
+
+- id: java
+  curso: "Java Completo: Programação Orientada a Objetos"
+  tipo: Curso
+  instituicao: Nelio Alves
+  inicio: 2026
+  situacao: em andamento
+  ordem: 4
+
+- id: dio
+  curso: Bootcamps e cursos de desenvolvimento
+  tipo: Curso
+  instituicao: DIO
+  inicio: 2025
+  situacao: em andamento
+  ordem: 5

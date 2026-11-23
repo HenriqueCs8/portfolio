@@ -1,0 +1,15 @@
+---
+import { site, caminho } from '../lib/site';
+const ano = new Date().getFullYear();
+const naPrivacidade = caminho(Astro.url.pathname) === '/privacidade';
+---
+
+<footer class="rodape">
+  <div class="rodape-dentro">
+    <p>{site.nomeCompleto}. Portfólio v1, {ano}.</p>
+    <nav class="rodape-links" aria-label="Rodapé">
+      <a class="lk" href="/privacidade" aria-current={naPrivacidade ? 'page' : undefined}>Privacidade</a>
+      <a class="lk" href="#topo">Voltar ao início</a>
+    </nav>
+  </div>
+</footer>

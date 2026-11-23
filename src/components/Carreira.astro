@@ -1,0 +1,127 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { periodoPartes } from '../lib/site';
+
+interface Props {
+  carreira: CollectionEntry<'carreira'>[];
+  projetos: CollectionEntry<'projetos'>[];
+  /** id → nome das tecnologias */
+  nomes: Map<string, string>;
+}
+const { nomes } = Astro.props;
+const itens = [...Astro.props.carreira].sort((a, b) => a.data.inicio.localeCompare(b.data.inicio));
+// cada pedaço do período não quebra no meio
+const quando = (c: CollectionEntry<'carreira'>) =>
+  periodoPartes(c.data.inicio, c.data.fim).map((p, k) => (k ? ` <span>${p}</span>` : `<span>${p}</span>`)).join('');
+const tituloDe = new Map(Astro.props.projetos.map((p) => [p.id, p.data.titulo]));
+for (const c of itens) {
+  for (const id of c.data.projetos) {
+    if (!tituloDe.has(id)) throw new Error(`carreira.yaml: "${c.id}" cita o projeto "${id}", que não existe em src/content/projetos.`);
+  }
+}
+---
+
+<section class="sec carreira" id="carreira" data-secao="carreira">
+  <header class="sec-cab" data-rev>
+    <h2 class="t-sec" data-titulo><span class="ln"><span>Carreira</span></span></h2>
+    <p class="sec-nota" data-acende>Da automação de planilhas aos sistemas completos, de {itens[0].data.inicio.slice(0, 4)} até hoje.</p>
+  </header>
+  <ol class="car">
+    <li class="car-linha" aria-hidden="true"><span></span></li>
+    {itens.map((c) => (
+      <li class="car-item" id={`carreira-${c.id}`} data-acende-grupo>
+        <span class="car-ponto" aria-hidden="true"></span>
+        <p class="car-quando" set:html={quando(c)} />
+        <div class="car-corpo">
+          <h3 class="car-empresa" data-vel>{c.data.empresa}</h3>
+          <p class="car-cargo">
+            {c.data.cargoAnterior && (
+              <>
+                <del><span class="so-leitor">Cargo anterior: </span>{c.data.cargoAnterior}</del>
+                <span class="so-leitor">Cargo atual: </span>
+              </>
+            )}
+            <ins>{c.data.cargo}</ins>
+          </p>
+          <div class="car-pe">
+            <p class="car-desc" data-acende>{c.data.descricao}</p>
+            <button class="bt car-bt" data-rola type="button" aria-haspopup="dialog" data-car={c.id}>Ver mais<span class="so-leitor"> sobre {c.data.empresa}</span></button>
+          </div>
+        </div>
+      </li>
+    ))}
+  </ol>
+
+  {/* painel "Ver mais" (gaveta.ts) */}
+  <dialog class="gav" id="gaveta">
+    <div class="gav-painel" data-lenis-prevent>
+      <div class="gav-barra">
+        <p class="gav-cont" aria-live="polite">Experiência <span data-gav-n>1</span> de {itens.length}</p>
+        <button class="bt gav-fecha" data-rola type="button">Fechar</button>
+      </div>
+      {itens.map((c) => (
+        <article class="gav-art" data-car={c.id} aria-labelledby={`gav-tit-${c.id}`} hidden>
+          <p class="gav-quando" set:html={quando(c)} />
+          <h2 class="gav-tit" id={`gav-tit-${c.id}`} tabindex="-1">{c.data.empresa}</h2>
+          <p class="gav-cargo">
+            {c.data.cargoAnterior && (
+              <>
+                <del><span class="so-leitor">Cargo anterior: </span>{c.data.cargoAnterior}</del>
+                <span class="so-leitor">Cargo atual: </span>
+              </>
+            )}
+            <ins>{c.data.cargo}</ins>
+          </p>
+          <p class="gav-desc">{c.data.descricao}</p>
+          {c.data.detalhes.length > 0 && (
+            <section class="gav-sec">
+              <h3>{c.data.fim ? 'O que eu fazia' : 'O que eu faço'}</h3>
+              <ul class="gav-feitos">
+                {c.data.detalhes.map((p) => <li>{p}</li>)}
+              </ul>
+            </section>
+          )}
+          {c.data.sistemas.length > 0 && (
+            <section class="gav-sec">
+              <h3>Sistemas que criei</h3>
+              <p class="gav-nota">Internos da {c.data.empresa}: sem acesso público, código ou imagens.</p>
+              {c.data.sistemas.map((sis) => (
+                <article class="gav-sis" id={`sis-${sis.id}`} aria-labelledby={`sis-tit-${sis.id}`}>
+                  <h4 class="gav-sis-tit" id={`sis-tit-${sis.id}`} tabindex="-1">{sis.titulo}</h4>
+                  <ul class="gav-feitos">
+                    {sis.descricao.map((d) => <li>{d}</li>)}
+                  </ul>
+                  <ul class="tags gav-sis-tags" aria-label={`Tecnologias do ${sis.titulo}`}>
+                    {[...sis.stack.map((t) => nomes.get(t)!), ...sis.extras].map((t) => <li>{t}</li>)}
+                  </ul>
+                </article>
+              ))}
+            </section>
+          )}
+          {c.data.projetos.length > 0 && (
+            <section class="gav-sec">
+              <h3>Projetos dessa fase</h3>
+              <ul class="gav-proj">
+                {c.data.projetos.map((id) => (
+                  <li><a class="lk" href={`#projeto-${id}`} data-abre={id}>{tituloDe.get(id)}</a></li>
+                ))}
+              </ul>
+            </section>
+          )}
+          {c.data.tecnologias.length > 0 && (
+            <section class="gav-sec">
+              <h3>Tecnologias</h3>
+              <ul class="gav-tecs">
+                {c.data.tecnologias.map((t) => <li>{t}</li>)}
+              </ul>
+            </section>
+          )}
+        </article>
+      ))}
+      <nav class="gav-nav" aria-label="Outras experiências">
+        <button class="bt" data-rola type="button" data-gav="-1">Experiência anterior</button>
+        <button class="bt" data-rola type="button" data-gav="1">Próxima experiência</button>
+      </nav>
+    </div>
+  </dialog>
+</section>

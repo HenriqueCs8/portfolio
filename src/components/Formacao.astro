@@ -1,0 +1,33 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { site } from '../lib/site';
+interface Props {
+  formacao: CollectionEntry<'formacao'>[];
+}
+const itens = [...Astro.props.formacao].sort((a, b) => a.data.ordem - b.data.ordem);
+const periodo = (f: CollectionEntry<'formacao'>['data']) => (f.fim ? `${f.inicio} a ${f.fim}` : `desde ${f.inicio}`);
+---
+
+<section class="sec formacao" id="formacao" data-secao="formacao">
+  <header class="sec-cab" data-rev>
+    <h2 class="t-sec" data-fit="encolhe" data-titulo><span class="ln"><span>Formação e cursos</span></span></h2>
+  </header>
+  <ul class="form-lista" data-acende>
+    {itens.map((f) => (
+      <li class={`form-item ${f.data.situacao === 'em andamento' ? 'andando' : f.data.situacao === 'a começar' ? 'previsto' : ''}`}>
+        <h3 class="form-curso">{f.data.curso}</h3>
+        <div class="form-meio">
+          <p class={`form-tipo ${f.data.tipo === 'Formação' ? 'graduacao' : ''}`}>{f.data.tipo}</p>
+          <p class="form-onde">{f.data.instituicao}</p>
+        </div>
+        <p class="form-quando">
+          <span class="form-periodo">{periodo(f.data)}</span>
+          <span class="form-situacao">{f.data.situacao}</span>
+        </p>
+      </li>
+    ))}
+  </ul>
+  <p class="idiomas" data-acende>
+    {site.idiomas.map((i) => <span><strong>{i.nome}</strong>, {i.nivel}</span>)}
+  </p>
+</section>
