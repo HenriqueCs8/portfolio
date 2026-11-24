@@ -44,7 +44,8 @@ resumo: Uma frase para a lista.
 tipo: Comercial            # Pessoal, Comercial ou Estudo
 quando: "2026"
 ano: 2026
-link: https://meusite.com  # opcional
+link: https://meusite.com  # opcional, botão "Abrir site"
+codigo: https://github.com/usuario/repo  # opcional, botão "Ver código"
 semLink: "É este site."    # opcional, troca a frase quando não tem link
 imagem: ../../assets/projetos/meu-projeto.png
 stack: [react, node]       # ids de conhecimentos.yaml

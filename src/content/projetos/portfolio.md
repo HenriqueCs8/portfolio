@@ -3,6 +3,7 @@ titulo: Portfólio HC8CODE
 resumo: Site pessoal com uma luz em WebGL e títulos que se montam em pixels.
 tipo: Pessoal
 semLink: "É este site: você já está nele."
+codigo: https://github.com/HenriqueCs8/portfolio
 quando: "2026"
 ano: 2026
 imagem: ../../assets/projetos/portfolio.jpg

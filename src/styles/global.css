@@ -588,17 +588,21 @@ html:not(.reduz) .tema-bt.trocou svg {
   transform: translateY(105%);
 }
 @media (hover: hover) {
-  :hover > .rola .rw-a .rl {
+  :hover > .rola .rw-a .rl,
+  .bt:hover > [data-rola] > .rola .rw-a .rl {
     transform: translateY(-105%);
   }
-  :hover > .rola .rw-b .rl {
+  :hover > .rola .rw-b .rl,
+  .bt:hover > [data-rola] > .rola .rw-b .rl {
     transform: none;
   }
 }
-:focus-visible > .rola .rw-a .rl {
+:focus-visible > .rola .rw-a .rl,
+.bt:focus-visible > [data-rola] > .rola .rw-a .rl {
   transform: translateY(-105%);
 }
-:focus-visible > .rola .rw-b .rl {
+:focus-visible > .rola .rw-b .rl,
+.bt:focus-visible > [data-rola] > .rola .rw-b .rl {
   transform: none;
 }
 
@@ -1430,6 +1434,20 @@ html:not(.js) .retrato-pausa {
 .det-sem {
   color: var(--texto-2);
   font-size: 15px;
+}
+.det-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+/* ícone antes do texto (Ver código) */
+.bt-icone {
+  gap: 10px;
+}
+.bt-icone svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
 }
 .det-nav {
   display: flex;

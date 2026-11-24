@@ -15,6 +15,8 @@ const projetos = defineCollection({
       quando: z.string(),
       ano: z.number(),
       link: z.string().optional(),
+      // repositório no GitHub: botão "Ver código"
+      codigo: z.string().url().optional(),
       // texto que aparece no lugar do link
       semLink: z.string().optional(),
       imagem: image(),
