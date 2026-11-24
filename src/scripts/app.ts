@@ -732,7 +732,16 @@ if (det) {
     }),
   );
   const pedidoNaUrl = location.hash.match(/^#projeto-(.+)$/);
-  if (pedidoNaUrl) abre(pedidoNaUrl[1], null, false);
+  if (pedidoNaUrl) {
+    abre(pedidoNaUrl[1], null, false);
+    // ao rolar até a âncora no carregamento, o Chrome tira o foco do título
+    const devolve = () =>
+      requestAnimationFrame(() => {
+        if (det?.open && document.activeElement === document.body) $('.det-art:not([hidden]) .det-tit', det)?.focus({ preventScroll: true });
+      });
+    if (document.readyState === 'complete') devolve();
+    else addEventListener('load', devolve, { once: true });
+  }
 }
 
 // conhecimentos: diagrama

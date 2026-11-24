@@ -1,5 +1,5 @@
 ---
-titulo: Portfólio HC8Code
+titulo: Portfólio HC8CODE
 resumo: Site pessoal com uma luz em WebGL e títulos que se montam em pixels.
 tipo: Pessoal
 semLink: "É este site: você já está nele."
