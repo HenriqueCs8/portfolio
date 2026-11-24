@@ -25,7 +25,7 @@ export function criaRolagem(reduz: boolean) {
   gsap.ticker.add((t) => lenis.raf(t * 1000));
   gsap.ticker.lagSmoothing(0);
 
-  // links para seções: quanto mais longe, mais demora (0,7 a 1,6 s). pelo teclado vai direto.
+  // quanto mais longe a seção, mais longo o scroll (0,7 a 1,6 s); pelo teclado é direto
   // quem já tratou o clique (menu, detalhe, painel) cancela o padrão
   document.addEventListener('click', (e) => {
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;

@@ -15,7 +15,7 @@ interface Props {
   descricao: string;
 }
 const { titulo, descricao } = Astro.props;
-// com SITE_URL os links ficam absolutos, como as redes pedem
+// as redes pedem og:image com endereço completo
 const pagina = caminho(Astro.url.pathname);
 const canonico = Astro.site && pagina !== '/404' ? new URL(pagina, Astro.site).href : undefined;
 const imagem = Astro.site ? new URL('/og.png', Astro.site).href : '/og.png';
@@ -72,7 +72,7 @@ const pessoa = inicio
       (function () {
         var h = document.documentElement;
         h.classList.add('js');
-        // tema salvo aplicado antes da primeira pintura, para não piscar
+        // aplica o tema antes de pintar, senão pisca
         try {
           if (localStorage.getItem('tema') === 'claro') {
             h.setAttribute('data-tema', 'claro');
@@ -89,7 +89,7 @@ const pessoa = inicio
             if (sessionStorage.getItem('abertura')) h.classList.add('intro-curta');
           } catch (e) {}
         }
-        // se o script principal não carregar, mostra o conteúdo mesmo assim
+        // se o app.ts falhar, mostra tudo assim mesmo
         setTimeout(function () {
           if (!window.__app) {
             h.classList.remove('js', 'intro', 'intro-curta');

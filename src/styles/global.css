@@ -1,7 +1,6 @@
-/* Portfólio: base, fundo, moldura, peças, seções, detalhe, movimento, celular */
 
 :root {
-  /* Cores por função; as versões -rgb servem para transparência */
+  /* -rgb: o mesmo tom, para usar com transparência */
   color-scheme: dark;
   --fundo-rgb: 10 9 9;
   --texto-rgb: 236 233 230;
@@ -44,7 +43,7 @@
   --selecao-texto: var(--texto);
 }
 
-/* tema claro: mesmos nomes, outra paleta */
+/* tema claro */
 :root[data-tema='claro'] {
   color-scheme: light;
   --fundo-rgb: 232 230 227;
@@ -80,7 +79,7 @@
 }
 
 :root {
-  /* movimento (os mesmos valores em ritmo.ts). fechar = 65% de abrir */
+  /* os mesmos de ritmo.ts */
   --e-entra: cubic-bezier(0.16, 1, 0.3, 1);
   --e-sai: cubic-bezier(0.55, 0, 1, 0.45);
   --e-troca: cubic-bezier(0.83, 0, 0.17, 1);
@@ -239,7 +238,7 @@ main,
   position: relative;
   z-index: 2;
 }
-/* as letras dos títulos chegam de fora da tela: corta para não alargar a página no celular */
+/* as letras chegam de fora da tela; sem isso a página alarga no celular */
 main > section {
   overflow-x: clip;
 }
@@ -625,7 +624,7 @@ html:not(.reduz) .tema-bt.trocou svg {
   gap: 32px;
   flex-wrap: wrap;
 }
-/* título com legenda ao lado: ocupa o espaço que sobra, que é a largura que o data-fit mede */
+/* o data-fit mede a largura que sobra ao lado da legenda */
 .sec-cab > .t-sec[data-fit] {
   flex: 1 1 0%;
   min-width: 0;
@@ -693,7 +692,7 @@ html.js .t-sec[data-fit] {
   justify-items: center;
   align-self: end;
 }
-/* telas largas: texto no canto de cima e o palco embaixo, ao lado; cabe em 768px de altura */
+/* telas largas; cabe em 768px de altura */
 @media (min-width: 1100px) {
   .hero {
     grid-template-rows: 1fr;
@@ -2252,7 +2251,7 @@ html.js .car-item.on .car-cargo del::after {
   grid-column: 9 / 11;
   color: var(--texto-2);
 }
-/* período e situação à direita; em andamento: pixel cheio; a começar: pixel vazado */
+/* em andamento: pixel cheio; a começar: vazado */
 .form-quando {
   grid-column: 11 / 13;
   justify-self: end;
@@ -2533,7 +2532,7 @@ html.fino .rotulo-cursor {
     opacity: 0;
     transform: translateY(18px);
   }
-  /* depois do nome: texto do topo, menu (+80ms) e barra de baixo (+160ms) */
+  /* depois do nome entram o topo, o menu e a barra de baixo */
   html.js.pronto:not(.reduz) .hero.visto .entra {
     opacity: 1;
     transform: none;
@@ -2780,7 +2779,7 @@ html.reduz .bt::before {
   .filtro-bt {
     white-space: nowrap;
   }
-  /* o X vira um selo no canto do nível ativo (tocar de novo no nível também limpa) */
+  /* X no canto do nível ativo */
   .filtro-item {
     position: relative;
   }

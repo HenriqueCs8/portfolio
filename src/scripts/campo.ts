@@ -1,11 +1,10 @@
-/* Fundo em WebGL: uma luz em pixels que cresce conforme a página desce
-   e segue o ponteiro. */
+// fundo em WebGL: luz em pixels que cresce com o scroll e segue o ponteiro
 
 // 3 px de CSS por pixel de luz; 4 px em aparelhos fracos
 const nav = navigator as Navigator & { deviceMemory?: number };
 export const CELULA = (nav.hardwareConcurrency || 8) <= 2 || (nav.deviceMemory || 8) <= 2 ? 4 : 3;
 
-/** célula arredondada para pixels inteiros da tela, senão as colunas saem desiguais com zoom */
+/** arredonda para pixels inteiros da tela; com zoom as colunas saíam desiguais */
 export function celula(base: number = CELULA) {
   const dpr = devicePixelRatio || 1;
   return Math.max(1, Math.round(base * dpr)) / dpr;
@@ -313,8 +312,8 @@ export function criaCampo(canvas: HTMLCanvasElement | null, reduz: boolean): Cam
   const inicio = performance.now();
   let antes = inicio;
   let pausado = false;
-  // parada há 2,5 s: roda a 30 fps (na grade de pixels não dá para ver a diferença).
-  // qualquer movimento volta para 60. 2 ms de folga para 60 Hz não cair para 20
+  // parada há 2,5 s cai para 30 fps; na grade de pixels não se nota
+  // 2 ms de folga para 60 Hz não virar 20
   const OCIOSO = 2500;
   const PASSO_OCIOSO = 1000 / 30 - 2;
   let mexeuEm = inicio;

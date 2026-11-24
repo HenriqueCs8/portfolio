@@ -1,4 +1,4 @@
-/* Títulos das seções que se escrevem em pixels conforme a rolagem. */
+// títulos das seções escritos em pixels conforme o scroll
 
 import { CELULA, celula } from './campo';
 import { amostraLetras, limita, suave, BAYER, PIX } from './nome';
@@ -34,13 +34,10 @@ interface Titulo {
 }
 
 export interface Letreiro {
-  /** redesenha para a rolagem atual */
   rolagem(): void;
-  /** refaz medidas e amostras (resize ou layout novo) */
   mede(): void;
 }
 
-// a faixa tem ~1,5 letra, entre 12% e 30% da linha
 const LETRAS_NA_FAIXA = 1.5;
 const FAIXA_MIN = 0.12;
 const FAIXA_MAX = 0.3;
@@ -68,8 +65,7 @@ export function criaLetreiro(elementos: HTMLElement[], aoCompletar?: (titulo: HT
   let desenhado = false;
 
   const mede = () => {
-    // mesma grade para todos os títulos: 2 px se algum for pequeno (celular), senão a da luz,
-    // arredondada para pixels inteiros da tela
+    // todos os títulos na mesma grade: 2 px no celular, senão a da luz
     const menor = Math.min(...elementos.map((e) => parseFloat(getComputedStyle(e).fontSize)));
     dpr = window.devicePixelRatio || 1;
     cel = celula(menor < 90 ? 2 : CELULA);
@@ -90,7 +86,7 @@ export function criaLetreiro(elementos: HTMLElement[], aoCompletar?: (titulo: HT
       const a = amostraLetras(el, cel);
       const secao = el.closest<HTMLElement>('section') || el;
       const nota = secao.querySelector<HTMLElement>('.sec-nota');
-      // daqui em diante a visibilidade é controlada aqui (o CSS esconde até agora para não piscar)
+      // daqui em diante quem mostra o título é o JS (o CSS esconde para não piscar)
       el.classList.add('letreiro-pronto');
       nota?.classList.add('letreiro-pronto');
 

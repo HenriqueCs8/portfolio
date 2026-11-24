@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 
-// página nova? coloque o caminho aqui. sem SITE_URL o mapa sai vazio
+// páginas do mapa; sem SITE_URL ele sai vazio
 const paginas = ['/', '/privacidade'];
 
 export const GET: APIRoute = ({ site }) => {

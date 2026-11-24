@@ -1,4 +1,4 @@
-// a próxima imagem aparece célula por célula a partir do canto de baixo à direita (Bayer 8x8)
+// troca de imagem em células, a partir do canto de baixo à direita (Bayer 8x8)
 
 const bayer8 = (() => {
   const m = [0];

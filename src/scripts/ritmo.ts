@@ -1,4 +1,4 @@
-/* Durações e curvas do movimento, iguais às do CSS. Fechar é mais rápido que abrir. */
+// durações e curvas, iguais às do global.css
 
 export const RITMO = { toque: 120, rapido: 240, medio: 450, lento: 650, cena: 780 } as const;
 

@@ -16,7 +16,7 @@ const conhecimentos = await getCollection('conhecimentos');
 const carreira = (await getCollection('carreira')).sort((a, b) => a.data.inicio.localeCompare(b.data.inicio));
 const formacao = await getCollection('formacao');
 
-// sistemas da empresa ficam na Carreira; um .md antigo com o mesmo id é ignorado
+// sistemas vêm da Carreira; um .md com o mesmo id é ignorado
 const sistemas = carreira.flatMap((c) => c.data.sistemas.map((s) => ({ ...s, car: c.id, empresa: c.data.empresa })));
 const ids = new Set(sistemas.map((s) => s.id));
 const projetos = (await getCollection('projetos'))

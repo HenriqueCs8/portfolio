@@ -5,7 +5,7 @@ import { periodoPartes } from '../lib/site';
 interface Props {
   carreira: CollectionEntry<'carreira'>[];
   projetos: CollectionEntry<'projetos'>[];
-  /** id → nome das tecnologias */
+  /** nome de cada tecnologia, pelo id */
   nomes: Map<string, string>;
 }
 const { nomes } = Astro.props;

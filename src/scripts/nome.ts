@@ -1,4 +1,4 @@
-/* O nome do início em pixels: se monta na abertura e se desfaz com a rolagem. */
+// nome do início em pixels: monta na abertura e desfaz no scroll
 
 import { CELULA, celula } from './campo';
 
@@ -27,11 +27,9 @@ export const vaiVolta = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-
 export interface Nome {
   /** roda a abertura; resolve quando o nome está montado e a página pode entrar */
   abertura(escala?: number): Promise<void>;
-  /** pula a abertura na hora */
   pula(): void;
   /** posição do scroll, para a saída */
   rolagem(y: number): void;
-  /** refaz as medidas (depois de mudar o tamanho da tela) */
   mede(): void;
 }
 
@@ -59,7 +57,6 @@ export function amostraLetras(el: HTMLElement, cel: number) {
   const descida = c.measureText('H').fontBoundingBoxDescent || parseFloat(cs.fontSize) * 0.22;
   const maiuscula = cs.textTransform === 'uppercase';
 
-  // desenha cada letra na posição exata em que o navegador a desenhou
   // caixa de cada letra, na ordem de leitura
   const caixas: number[] = [];
   const passeio = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
@@ -127,8 +124,6 @@ export function criaNome(h1: HTMLElement, hero: HTMLElement, parallax: number): 
     buf = new Uint32Array(quadro.data.buffer);
   };
 
-  // amostra das letras
-
   let n = 0;
   let hx = new Float32Array(0); // posição de cada pixel em relação ao canto do nome (px de CSS)
   let hy = new Float32Array(0);
@@ -172,7 +167,7 @@ export function criaNome(h1: HTMLElement, hero: HTMLElement, parallax: number): 
   let pedidoAbertura = 0;
   let terminaAbertura: (() => void) | null = null;
 
-  // escala < 1 encurta tudo (1 = 2,4 s; 0,58 ≈ 1,4 s no F5)
+  // escala 1 = 2,4 s; a abertura curta usa 0,58 (uns 1,4 s)
   const abertura = (escala = 1) =>
     new Promise<void>((resolve) => {
       dimensiona();

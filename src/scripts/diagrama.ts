@@ -1,5 +1,4 @@
-/* Diagrama dos Conhecimentos: as caixas entram, um pixel percorre o caminho
-   de um projeto e cada tecnologia abre a sua descrição. */
+// diagrama dos Conhecimentos: caixas, o pixel que percorre cada projeto e as descrições
 
 import type { Campo } from './campo';
 
@@ -243,7 +242,7 @@ export function criaDiagrama(campo: Campo, reduz: boolean, fino: boolean): Diagr
     }, 120 + ordem.length * ENTRE_CAIXAS + 900);
   }
 
-  // descrição de cada tecnologia: indo de uma para outra em até 400 ms, a próxima já abre pronta
+  // indo de uma tecnologia para outra em menos de 400 ms, a próxima abre sem animação
   let fechando = 0;
   let fechouEm = -1e9;
   function abre(t: HTMLButtonElement) {

@@ -277,7 +277,7 @@ if (relogio) {
 
 const menu = $<HTMLDialogElement>('#menu');
 if (menu) {
-  // abre com os links subindo um a um; ao escolher uma seção, a página já rola por baixo.
+  // links sobem um a um; escolhendo uma seção, a página já rola por baixo
   // pelo teclado abre e fecha na hora
   const links = $$<HTMLAnchorElement>('nav a', menu);
   let saindo: Promise<void> | null = null;
@@ -443,7 +443,6 @@ function marcaPagina(n: number, direcao = 0) {
 }
 
 // troca de página: as linhas apagam e acendem em pixels (pixelado.ts).
-// clicar de novo termina a troca atual e já começa a outra
 let troca: Sinal | null = null;
 function mostraPagina(n: number, animado: boolean, direcao = 1) {
   if (n < 0 || n >= paginas) return;
@@ -874,9 +873,8 @@ if (filtro) {
 
 // carreira: painel "Ver mais"
 
-// pré-carrega as imagens da prévia e do detalhe com a página parada, uma por vez,
-// para não travar o primeiro quadro da animação
-// no toque não tem prévia, só o detalhe; com economia de dados não baixa nada antes
+// pré-carrega as imagens uma por vez, com a página parada, para a animação não travar
+// no toque só a do detalhe; com economia de dados, nenhuma
 const economia = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
 const aquece = async () => {
   if (economia) return;

@@ -1,6 +1,6 @@
-// gera dist/_headers depois do build (a Cloudflare Pages lê esse arquivo).
-// a CSP libera só os scripts do site e os scripts inline pelo hash, calculado do HTML pronto.
-// HSTS sem includeSubDomains nem preload, que são difíceis de desfazer.
+// roda depois do build e gera dist/_headers para a Cloudflare Pages
+// scripts inline entram na CSP pelo hash, tirado do HTML final
+// HSTS sem includeSubDomains/preload: é difícil voltar atrás
 import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';

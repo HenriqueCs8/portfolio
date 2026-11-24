@@ -2,7 +2,6 @@ import { defineCollection } from 'astro:content';
 import { glob, file } from 'astro/loaders';
 import { z } from 'astro/zod';
 
-// um .md por projeto em src/content/projetos/
 const projetos = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/projetos' }),
   schema: ({ image }) =>
@@ -16,7 +15,7 @@ const projetos = defineCollection({
       quando: z.string(),
       ano: z.number(),
       link: z.string().optional(),
-      // frase do detalhe quando não há link (sem ela, usa a padrão do tipo)
+      // texto que aparece no lugar do link
       semLink: z.string().optional(),
       imagem: image(),
       provisoria: z.boolean().default(false),
@@ -76,7 +75,6 @@ const formacao = defineCollection({
   }),
 });
 
-// páginas de texto (privacidade)
 const paginas = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/paginas' }),
   schema: z.object({

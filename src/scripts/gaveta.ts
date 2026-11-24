@@ -1,4 +1,4 @@
-/* Painel "Ver mais" da Carreira. Fecha com Esc, com o botão ou clicando fora. */
+// painel "Ver mais" da Carreira
 
 import { RITMO, CURVA, ESCALONA, saida } from './ritmo';
 

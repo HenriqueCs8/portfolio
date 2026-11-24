@@ -1,4 +1,4 @@
-/* Troca de tema: os pixels do tema novo cobrem a tela a partir do botão e depois se desfazem. */
+// troca de tema: pixels saem do botão, cobrem a tela e se desfazem
 
 import { celula } from './campo';
 import { BAYER } from './nome';

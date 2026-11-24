@@ -12,7 +12,7 @@ const porPagina = site.projetosPorPagina;
 const paginas = Math.ceil(projetos.length / porPagina);
 const lista = await Promise.all(projetos.map(async (p) => ({ p, Content: (await render(p)).Content })));
 
-// frase do detalhe sem link público (o .md pode trocar com semLink)
+// texto no lugar do link; o .md pode trocar com semLink
 const semLinkPadrao: Record<string, string> = {
   Comercial: 'Entregue ao cliente, sem link público.',
   Pessoal: 'Projeto pessoal, sem link público.',

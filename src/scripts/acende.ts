@@ -1,5 +1,4 @@
-/* Texto que acende palavra por palavra quando o título da seção termina,
-   e depois pulsa de leve de tempos em tempos. */
+// texto que acende palavra por palavra quando o título termina, e pulsa de vez em quando
 
 export interface Acende {
   /** título completo: acende o texto da seção (uma vez) */

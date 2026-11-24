@@ -1,2 +1,2 @@
-# Fins de linha iguais no Windows e no servidor (evita diferenças falsas no git)
+# mesmo fim de linha no Windows e no Linux
 * text=auto eol=lf

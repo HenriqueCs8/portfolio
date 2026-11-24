@@ -44,7 +44,7 @@ export interface Sinal {
   parou: boolean;
 }
 
-/** acende ou apaga o elemento em pixels; resolve no fim (ou na hora, se o sinal parar) */
+/** resolve no fim, ou na hora se o sinal abortar */
 export function pixela(el: HTMLElement, entra: boolean, duracao: number, atraso: number, sinal: Sinal) {
   return new Promise<void>((resolve) => {
     nivel(el, entra ? 0 : DEGRAUS);
