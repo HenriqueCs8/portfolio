@@ -81,7 +81,7 @@ Se um projeto usar em `stack` um id que não existe, o build para e diz qual é.
   cargoAnterior: Estagiário de TI   # opcional, aparece riscado
   cargo: Trainee de TI
   inicio: "2026-02"
-  fim: "2026-09"                    # sem fim aparece "até hoje"
+  fim: "2026-09"                  
   descricao: Uma ou duas frases para a linha do tempo.
   detalhes:                         # lista "O que eu fazia" do "Ver mais"
     - Uma atividade por linha.
@@ -106,7 +106,7 @@ As datas viram texto sozinhas: `"2026-02"` a `"2026-09"` aparece como "fevereiro
   tipo: Curso               # ou Formação, para graduação
   instituicao: Origamid
   inicio: 2026
-  fim: 2027                 # sem fim aparece "desde 2026"
+  fim: 2027                 
   situacao: em andamento    # a começar, em andamento ou concluído
   ordem: 3
 ```
