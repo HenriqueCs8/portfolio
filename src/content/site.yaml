@@ -31,7 +31,6 @@ agora:
   itens:
     - { rotulo: Estudando, texto: "Formação Full Stack da Origamid e Java com Nelio Alves" }
     - { rotulo: Construindo, texto: "Sites e sistemas para clientes, como freelancer" }
-    - { rotulo: Aprendendo, texto: "Next.js, AWS, n8n e Docker" }
     - { rotulo: Procurando, texto: "Vaga full stack ou projeto freelance" }
 
 # camadas dos Conhecimentos, de cima para baixo
