@@ -5,8 +5,6 @@ WebGL em pixels. É estático, sem cookies e sem rastreamento.
 
 ## Rodando
 
-Precisa do Node 22 ou mais novo.
-
 ```bash
 npm install
 npm run dev        # http://localhost:4321
@@ -27,15 +25,6 @@ public/            currículo, imagem de compartilhamento e ícones
 ferramentas/       cabecalhos.mjs, que gera o dist/_headers depois do build
 ```
 
-## Editando o conteúdo
-
-Quase tudo que muda com frequência está em `src/content`. Os arquivos YAML têm comentários no
-topo explicando os campos.
-
-### Projetos
-
-Um `.md` por projeto em `src/content/projetos/`, com o print em `src/assets/projetos/` na
-proporção 2:1 (uso 1840 × 920, sem barra de rolagem).
 
 ```md
 ---
